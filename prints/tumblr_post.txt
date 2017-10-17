@@ -1,7 +1,6 @@
 My objective starting this blog is primarly forcing myself to try a new variety
-of common methods, build-in functions that we normally don't use in production
-enviroments. The second objective is to help people out that are trying to use
-the language and want to know what kind of different things we can do with python.
+of common methods, build-in functions that we normally don't use in production enviroments.
+The second objective is to help people out that are trying to use the language and want to know what kind of different things we can do with python.
 
 Today let's just try to use everthing that the build-in function print() can do for us.
 
@@ -9,15 +8,15 @@ The official documentation can be found here https://docs.python.org/3/library/f
 
 Method signature print(*objects, sep='', end='\n', file=sys.stdout, flush=False)
 
-Let's first understand some concepts that will be useful in the future. Python functions / methods
-can receive different types of arguments. We can receive one or more positional arguments, and
-one or more keyword arguments. In the following declaration:
+Let's first understand some concepts that will be useful in the future.
+Python functions / methods can receive different types of arguments.
+We can receive one or more positional arguments, and one or more keyword arguments. In the following declaration:
 
 def myFunction(*positional, **keywords):
-    print(type(positional))
-    print(positional)
-    print(type(keywords))
-    print(keywords)
+   print(type(positional))
+   print(positional)
+   print(type(keywords))
+   print(keywords)
 
 myFunction(1, 2, 3, 4, a=5, b=6, c=7)
 
@@ -28,20 +27,20 @@ OUTPUT:
 <class 'dict'>
 {'a': 5, 'b': 6, 'c': 7}
 
-Now we understand that any object passed without being named to the function will be treated as a positional
-argument, this means that if we want to use the sep, end, file and flush arguments of the print() function
-we have to explicity name it or every argument will be used as part of the positional "*objects" argument.
+Now we understand that any object passed without being named to the function will be treated as a positional argument,
+this means that if we want to use the sep, end, file and flush arguments of the print() function we have to explicity name
+it or every argument will be used as part of the positional "*objects" argument.
 This is specified in the documentation in the following line "sep, end, file and flush, if present, must be given as keyword arguments."
 
 Now let's try to undestand what every parameter do:
-    *objects: is all the objects passed without name to the function and will suffer a str() cast to be printed.
-              They will be separated by "sep" and followed by "end"
-    sep: is the string applied to the end of each printed object. Default is ' '
-    end: is the string applied to the end of each printed sep string passed as argument. Default is '\n'
-    file: this is were the output will be printed. Defaults to sys.stdout
-    flush: determines if we want to force the flush of the print or not. Default to False
 
+*objects: is all the objects passed without name to the function and will suffer a str() cast to be printed. They will be separated by "sep" and followed by "end"
+sep: is the string applied to the end of each printed object. Default is ' '
+end: is the string applied to the end of each printed sep string passed as argument. Default is '\n'
+file: this is were the output will be printed. Defaults to sys.stdout
+flush: determines if we want to force the flush of the print or not. Default to False
 We will try out a couple of prints mixing the arguments.
+
 The most common print would be passing a simple string to be printed:
 
 print("myBeautifulString")
@@ -59,8 +58,8 @@ OUTPUT:
 ['m', 'y', 'A', 'r', 'r', 'y']
 
 Well, a common error is to think that passing a list would split it and pass as positional arguments.
-That's not the case because the argument that we used was an entire object of type list. So if we want
-to split it as positional arguments we can use the following syntax:
+That's not the case because the argument that we used was an entire object of type list.
+So if we want to split it as positional arguments we can use the following syntax:
 
 print(*["m", "y", "A", "r", "r", "y"])
 
@@ -72,11 +71,9 @@ OUTPUT:
 
 m y A r r y
 
-When using the "*" we are telling python to decompose each object of the list into an individual item and
-pass it to the function.
+When using the "*" we are telling python to decompose each object of the list into an individual item and pass it to the function.
 
-Now we can try to use the final arguments, where "sep" will be used between each object printed and "end"
-will be used at the final of the printed objects.
+Now we can try to use the final arguments, where "sep" will be used between each object printed and "end" will be used at the final of the printed objects.
 
 # printing the array as one string
 print(*["m", "y", "A", "r", "r", "y"], sep="")
@@ -93,14 +90,13 @@ OUTPUT:
 
 myArry
 
-For the last two arguments we need to have some knowledge of writing to files, let's try
-to simplify. From the documentation "The file argument must be an object with a write(string) method;"
-This means theat if the argument that I use don't have a function with the signature write(string) this
-argument will not work. If None is passed or no argument used, it will print to sys.stdout that is
-your console / terminal normally.
+For the last two arguments we need to have some knowledge on writing to files, let's try to simplify.
+From the documentation "The file argument must be an object with a write(string) method;"
+This means that if the argument that I use don't have a function with the signature write(string) this argument will not work.
+If None is passed or no argument is used, it will print to sys.stdout that normally is your console / terminal.
 
-It's not a common practice in a production code use a different output to each print, but just for
-the sample and debbuging purposes we will try use a different output.
+It's not a common practice in a production code to use a different output on each print,
+but just for the sample and debbuging purposes we will try to use a different output.
 
 # prints to a file
 fsock = open("debbuging.log", "w") # this returns a file object that has a write(string) method
@@ -108,17 +104,15 @@ print("Printing in a file debbuging my code", file = fsock)
 
 OUTPUT:
 
-This will create the file debbuging.log in the local execution directory writing
+This will create the file debbuging.log in the local directory writing
 
 Printing in a file debbuging my code
 
 on it.
 
-The last argument is the flush, what it does is basically forcing all the buffered prints
-to be executed in the output argument. By default sys.stdout do not writes every print
-to your console, it holds the execution and ocasionally it executes the prints, with
-the flush=True for each print executed you will immediately see the output. In files
-or in long runnning programs this is more useful.
+The last argument is the flush, what it does is basically forcing all the buffered prints to be executed in the output argument.
+By default sys.stdout do not writes every print to your console, it holds the execution and ocasionally it executes the prints,
+with the flush=True for each print executed you will immediately see the output. In files or in long runnning programs this is more useful.
 
 # outputs each print in execution time to the default output
 print("MyFirstPrint", flush=True)
@@ -131,9 +125,8 @@ MyFirstPrint
 MySecondPrint
 MyThirdPrint
 
-It's good to try out for yourself each use case, probably in production enviroments is
-more hard to find use of some of the parameters but it's always good to have in the back
-of your mind all the possibilities.
+It's good to try out for yourself each use case, probably in production enviroments is more hard to find use of some of the parameters
+but it's always good to have in the back of your mind all the possibilities.
 
 Cya and Good Coding.
 
